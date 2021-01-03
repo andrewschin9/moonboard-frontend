@@ -1,0 +1,6 @@
+ToDO:
+-
+
+Nice to haves:
+- Restrictions on passwords (special characters, length, etc.)
+- Thumbnails of problems
