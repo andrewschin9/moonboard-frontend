@@ -21,14 +21,14 @@ td {
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 28px;
+  font-size: 35px;
   color: red;
   align-items: center;
   justify-content: center;
-  /* border: 0.5px solid gray;
-  border-collapse: collapse; */
-  height: 40px;
-  width: 40px;
+  border: 0.5px solid gray;
+  border-collapse: collapse;
+  height: 50px;
+  width: 50px;
 }
 </style>
 <script>
