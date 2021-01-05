@@ -10,17 +10,23 @@
   </div>
 </template>
 <style>
+table.board {
+  background: url(mbimg.png);
+  background-size: cover;
+}
 table,
 th,
 td {
+  table-layout: fixed;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 28px;
+  color: red;
   align-items: center;
   justify-content: center;
-  display: flex;
-  border: 1px solid black;
-  border-collapse: collapse;
+  /* border: 0.5px solid gray;
+  border-collapse: collapse; */
   height: 40px;
   width: 40px;
 }
@@ -30,32 +36,34 @@ export default {
   data: function () {
     return {
       holds: [
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
+        [, , , , , , , , , , ,],
       ],
     };
   },
   created: function () {},
   methods: {
     changeTo: function (index1, index2) {
-      console.log(index1, index2);
-      this.holds[index1][index2] = "O";
+      if (!this.holds[index1][index2]) {
+        this.holds[index1][index2] = "O";
+      } else if (this.holds[index1][index2] == "O") {
+        this.holds[index1][index2] = null;
+      }
       console.log(this.holds);
       this.$forceUpdate();
       // this.information = thing;
