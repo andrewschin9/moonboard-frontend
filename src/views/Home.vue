@@ -20,7 +20,7 @@
      <div v-for="problem in filterBy(filterBy(problems, search_name , 'prob_name'), search_grade , 'grade')">
       <p><strong>Name:</strong> {{problem.prob_name}}</p>
       <p><strong>Grade:</strong> {{problem.grade}}</p>
-      <button v-on:click="showProblem(problem);holdsShow(index1,index2,$event)">Show problem</button>
+      <button v-on:click="showProblem(problem)">Show problem</button>
       <hr>
 
       <dialog id="problem-details">
@@ -30,8 +30,8 @@
           <p><strong>Grade: </strong>{{currentProblem.grade}}</p>
           <table id="board">
             <tr id="tr" v-for="(row, index1) in holds">
-              <td :class="{red: hold}" v-for="(hold, index2) in row">
-                {{ hold }}
+              <td v-bind:class="updateHolds(index1,index2)" v-for="(hold, index2) in row">
+            {{ hold }}
               </td>
             </tr>
           </table>
@@ -59,6 +59,12 @@ export default {
       search_grade: "",
       currentProblem: {},
       holds: [
+        ["", "", "", "F", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "M", "", "", "", ""],
+        ["", "", "", "", "", "", "M", "", "", "", ""],
+        ["", "", "", "", "", "", "M", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
@@ -68,13 +74,7 @@ export default {
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "S", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
       ],
@@ -90,15 +90,15 @@ export default {
         this.problems = response.data;
       });
     },
-    holdsShow: function (index1, index2, element) {
+    updateHolds: function (index1, index2) {
+      console.log(this.currentProblem.holds);
       if (this.holds[index1][index2] === "S") {
-        element.target.style.borderColor = "Green";
+        return "green";
       } else if (this.holds[index1][index2] === "M") {
-        element.target.style.borderColor = "Blue";
+        return "blue";
       } else if (this.holds[index1][index2] === "F") {
-        element.target.style.borderColor = "Red";
+        return "red";
       }
-      this.$forceUpdate();
     },
     showProblem: function (problem) {
       this.currentProblem = problem;
