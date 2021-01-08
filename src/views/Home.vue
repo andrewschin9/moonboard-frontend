@@ -20,7 +20,23 @@
      <div v-for="problem in filterBy(filterBy(problems, search_name , 'prob_name'), search_grade , 'grade')">
       <p><strong>Name:</strong> {{problem.prob_name}}</p>
       <p><strong>Grade:</strong> {{problem.grade}}</p>
+      <button v-on:click="showProblem(problem);holdsShow(index1,index2,$event)">Show problem</button>
       <hr>
+
+      <dialog id="problem-details">
+        <form method = "dialog">
+          <button>Close</button>
+          <p><strong>Name: </strong>{{currentProblem.prob_name}}</p>
+          <p><strong>Grade: </strong>{{currentProblem.grade}}</p>
+          <table id="board">
+            <tr id="tr" v-for="(row, index1) in holds">
+              <td :class="{red: hold}" v-for="(hold, index2) in row">
+                {{ hold }}
+              </td>
+            </tr>
+          </table>
+        </form>
+      </dialog>
     </div>
   </div>
 </template>
@@ -41,6 +57,27 @@ export default {
       grade: "",
       search_name: "",
       search_grade: "",
+      currentProblem: {},
+      holds: [
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+      ],
     };
   },
   created: function () {
@@ -52,6 +89,21 @@ export default {
         console.log(response.data);
         this.problems = response.data;
       });
+    },
+    holdsShow: function (index1, index2, element) {
+      if (this.holds[index1][index2] === "S") {
+        element.target.style.borderColor = "Green";
+      } else if (this.holds[index1][index2] === "M") {
+        element.target.style.borderColor = "Blue";
+      } else if (this.holds[index1][index2] === "F") {
+        element.target.style.borderColor = "Red";
+      }
+      this.$forceUpdate();
+    },
+    showProblem: function (problem) {
+      this.currentProblem = problem;
+      console.log(problem);
+      document.querySelector("#problem-details").showModal();
     },
   },
 };
