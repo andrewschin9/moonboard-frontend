@@ -20,7 +20,7 @@
      <div v-for="problem in filterBy(filterBy(problems, search_name , 'prob_name'), search_grade , 'grade')">
       <p><strong>Name:</strong> {{problem.prob_name}}</p>
       <p><strong>Grade:</strong> {{problem.grade}}</p>
-      <button v-on:click="showProblem(problem)">Show problem</button>
+      <button v-on:click="showProblem(problem); filterPicked()">Show problem</button>
       <hr>
 
       <dialog id="problem-details">
@@ -52,6 +52,7 @@ export default {
   mixins: [Vue2Filters.mixin],
   data: function () {
     return {
+      pickedHolds: [],
       problems: [],
       prob_name: "",
       grade: "",
@@ -59,12 +60,6 @@ export default {
       search_grade: "",
       currentProblem: {},
       holds: [
-        ["", "", "", "F", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "M", "", "", "", ""],
-        ["", "", "", "", "", "", "M", "", "", "", ""],
-        ["", "", "", "", "", "", "M", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
@@ -74,7 +69,13 @@ export default {
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
-        ["", "", "", "", "", "", "S", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", "", ""],
       ],
@@ -82,8 +83,28 @@ export default {
   },
   created: function () {
     this.problemsIndex();
+    this.pickedHoldsIndex();
   },
   methods: {
+    pickedHoldsIndex: function () {
+      axios.get("/api/pickedholds").then((response) => {
+        console.log(response.data);
+        this.pickedHolds = response.data;
+      });
+    },
+    filterPicked: function () {
+      var filteredPicked = this.pickedHolds.filter(
+        (item) => item.problem_id === this.currentProblem.id
+      );
+      var i;
+      for (i = 0; i < filteredPicked.length; i++) {
+        console.log(this.holds);
+        var a = filteredPicked[i].row;
+        var b = filteredPicked[i].column;
+        var c = filteredPicked[i].value;
+        this.holds[a][b] = c;
+      }
+    },
     problemsIndex: function () {
       axios.get("/api/problems").then((response) => {
         console.log(response.data);
@@ -91,7 +112,7 @@ export default {
       });
     },
     updateHolds: function (index1, index2) {
-      console.log(this.currentProblem.holds);
+      console.log(typeof index1);
       if (this.holds[index1][index2] === "S") {
         return "green";
       } else if (this.holds[index1][index2] === "M") {
@@ -101,6 +122,26 @@ export default {
       }
     },
     showProblem: function (problem) {
+      this.holds = [
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", "", ""],
+      ];
       this.currentProblem = problem;
       console.log(problem);
       document.querySelector("#problem-details").showModal();

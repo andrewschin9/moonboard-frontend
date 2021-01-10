@@ -65,7 +65,7 @@ td {
   margin-left: auto;
   margin-right: auto;
   font-size: 25px;
-  color: red;
+  color: transparent;
   align-items: center;
   justify-content: center;
   border: 3px solid transparent;
